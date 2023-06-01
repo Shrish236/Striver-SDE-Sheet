@@ -1,0 +1,17 @@
+Leetcode link: https://leetcode.com/problems/maximum-subarray/submissions/
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int max_sum = 0, max_till_now = 0, maxi=INT_MIN;
+        for(int i = 0; i<nums.size(); i++){
+            max_till_now+=nums[i];
+            if(max_till_now < 0){
+                max_till_now=0;
+            }
+            max_sum=max(max_sum, max_till_now);
+            maxi=max(maxi, nums[i]);
+        }
+        return max_sum==0? maxi : max_sum;
+    }
+};
