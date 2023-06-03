@@ -26,3 +26,45 @@ public:
         }
     }
 };
+
+O(1) space:
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        bool zero_r = false;
+        bool zero_c = false;
+        for(int i= 0;i<n;i++){
+            for(int j = 0; j<m; j++){
+                if(i!=0 && j!=0 && matrix[i][j]==0){
+                    matrix[0][j]=0;
+                    matrix[i][0]=0;
+                }
+                if(i==0 && matrix[i][j]==0){
+                    zero_r = true;
+                }
+                if(j==0 && matrix[i][j]==0){
+                    zero_c=true;
+                }
+            }
+        }
+        for(int i= 1;i<n;i++){
+            for(int j = 1; j<m; j++){
+                if(matrix[0][j]==0 || matrix[i][0]==0){
+                    matrix[i][j]=0;
+                }
+            }
+        }
+        int i = 0, j = 0;
+        while(j<m && zero_r){
+            matrix[0][j]=0;
+            j++;
+        }
+        while(i<n && zero_c){
+            matrix[i][0]=0;
+            i++;
+        }
+    }
+};
