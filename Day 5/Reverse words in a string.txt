@@ -1,0 +1,85 @@
+Leetcode link: https://leetcode.com/problems/reverse-words-in-a-string/
+
+Space O(no of words):
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        
+        int n = s.length();
+        string temp = "";
+        vector<string> list;
+        for(int i = 0; i<n; i++){
+            if(s[i]!=' '){
+                temp.push_back(s[i]);
+            }
+            else if(temp!=""){
+                list.push_back(temp);
+                temp = "";
+            }
+        }
+        if(temp!=""){
+            list.push_back(temp);
+        }
+        reverse(list.begin(), list.end());
+        string ans;
+        for(int i = 0; i<list.size(); i++){
+            ans+=list[i];
+            if(i!=list.size()-1){
+                ans.push_back(' ');
+            }
+        }
+        return ans;
+        
+    }
+};
+
+O(1) Space:
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        
+        int n = s.length();
+        string temp = "", ans = "";
+        for(int i = 0; i<n; i++){
+            if(s[i]!=' '){
+                temp.push_back(s[i]);
+            }
+            else if(temp!=""){
+                
+                if(ans.length()!=0){
+                    ans+=" ";
+                }
+                ans+=temp;
+                temp = "";
+            }
+        }
+        if(temp!=""){
+            if(ans!=""){
+                ans+=" ";
+            }
+            ans+=temp;
+        }
+        string result;
+        int newLen = ans.length();
+        int lastIndex = newLen;
+        temp = "";
+        for(int i = newLen; i>=0; i--){
+            if(ans[i] == ' '){
+                for(int j = i+1; j<lastIndex; j++){
+                    temp+=ans[j];
+                }
+                result+=temp;
+                result+=" ";
+                lastIndex = i;
+                temp="";
+            }
+        }
+        for(int j = 0; j<lastIndex; j++){
+            temp+=ans[j];
+        }
+        result+=temp;
+        return result;        
+    }
+};
