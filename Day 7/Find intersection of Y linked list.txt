@@ -1,0 +1,103 @@
+Leetcode link: https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+Unoptimised code (More number of lines):
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* ans = NULL;
+        ListNode* temp1 = headA;
+        ListNode* temp2 = headB;
+        
+        while(temp1!=NULL && temp2!=NULL){
+            if(temp1 == temp2){
+                return temp1;
+            }
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }
+        
+        int diff = 0;
+        if(temp1==NULL){
+            while(temp2!=NULL){
+                temp2=temp2->next;
+                diff++;
+            }
+            temp2 = headB;
+            while(diff>0){
+                temp2=temp2->next;
+                diff--;
+            }
+            temp1=headA;
+        }
+        else{
+            while(temp1!=NULL){
+                temp1=temp1->next;
+                diff++;
+            }
+            temp1 = headA;
+            while(diff>0){
+                temp1=temp1->next;
+                diff--;
+            }
+            temp2 = headB;
+        }
+        
+        while(temp1!=NULL && temp2!=NULL){
+            if(temp1 == temp2){
+                ans = temp1;
+                break;
+            }
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }
+        return ans;
+        
+    }
+};
+
+Optimised code:
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* ans = NULL;
+        ListNode* temp1 = headA;
+        ListNode* temp2 = headB;
+        if(temp1==temp2){
+            return temp1;
+        }
+        while(temp1!=NULL && temp2!=NULL && temp1!=temp2){
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+            if(temp1 == temp2){
+                ans = temp1;
+                return ans;
+            }
+            if(temp1 == NULL){
+                temp1 = headB;
+            }
+            if(temp2 == NULL){
+                temp2 = headA;
+            }
+        }
+        return temp1;
+        
+    }
+};
