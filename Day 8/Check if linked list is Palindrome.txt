@@ -1,0 +1,42 @@
+Leetcode link: https://leetcode.com/problems/palindrome-linked-list/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* globHead = NULL;
+    bool checkPalin(ListNode* temp){
+        if(temp==NULL){
+            return false;
+        }
+        if(temp->next == NULL){
+            if(globHead->val == temp->val){
+                globHead=globHead->next;
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        bool res = checkPalin(temp->next) && temp->val == globHead->val;
+        if(res){
+            globHead = globHead->next;
+        }
+        return res;
+        
+    }
+    bool isPalindrome(ListNode* head) {
+        string s;
+        ListNode* temp = head;
+        globHead = head;
+        return checkPalin(temp);
+    }
+};
