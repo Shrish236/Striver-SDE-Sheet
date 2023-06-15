@@ -1,0 +1,61 @@
+Coding Ninjas link: https://www.codingninjas.com/codestudio/problems/path-in-a-tree_3843990?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website
+
+#include <bits/stdc++.h> 
+/*   
+    template <typename T = int>
+	class TreeNode
+	{
+		public:
+		T data;
+		TreeNode<T> *left;
+		TreeNode<T> *right;
+
+		TreeNode(T data)
+		{
+			this->data = data;
+			left = NULL;
+			right = NULL;
+		}
+
+		~TreeNode()
+		{
+			if (left != NULL)
+			{
+		  		delete left;
+			}
+			if (right != NULL)
+			{
+			 	delete right;
+			}
+		}
+	};
+*/
+
+bool find(TreeNode<int> *root, int x, vector<int> &res){
+	if(root==NULL){
+		return false;
+	}
+	if(root->data == x){
+		res.push_back(root->data);
+		return true;
+	}
+	bool left = find(root->left, x, res);
+	if(left){
+		res.push_back(root->data);
+		return true;
+	}
+	bool right = find(root->right, x, res);
+	if(right){
+		res.push_back(root->data);
+		return true;
+	}
+	return false;
+}
+vector<int> pathInATree(TreeNode<int> *root, int x)
+{
+    // Write your code here.
+	vector<int> res;
+	bool a = find(root, x, res);
+	reverse(res.begin(), res.end());
+	return res;
+}
