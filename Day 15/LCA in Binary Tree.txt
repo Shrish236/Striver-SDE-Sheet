@@ -1,0 +1,35 @@
+Leetcode link: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
+Referred solution link: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/discuss/1306476/C%2B%2BPython-2-solutions-Clean-and-Concise-O(N)
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    TreeNode* dfs(TreeNode* root, TreeNode* temp1, TreeNode* temp2){
+        if(root==NULL){
+            return NULL;
+        }
+        if(root->val == temp1->val || root->val == temp2->val){
+            return root;
+        }
+        TreeNode* left = dfs(root->left, temp1, temp2);
+        TreeNode* right = dfs(root->right, temp1, temp2);
+        if(left!=NULL && right!=NULL){
+            return root;
+        }
+        if(left!=NULL){ return left; }
+        return right;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        return dfs(root, p, q);
+    }
+};
