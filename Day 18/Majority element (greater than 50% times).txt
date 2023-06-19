@@ -1,0 +1,24 @@
+Leetcode link: https://leetcode.com/problems/majority-element/
+
+Referred solution link: https://leetcode.com/problems/majority-element/discuss/1787619/C%2B%2B-MULTIPLE-APPROACHES-%3A-Hashmaps-Sorting-VotingAlgo
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int count = 1, ele = nums[0];
+        int n = nums.size();
+        for(int i = 1; i<n; i++){
+            if(count==0){
+                count++;
+                ele = nums[i];
+            }
+            else if(nums[i]==ele){
+                count++;
+            }
+            else{
+                count--;
+            }
+        }
+        return ele;
+    }
+};
