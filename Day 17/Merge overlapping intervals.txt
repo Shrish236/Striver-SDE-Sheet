@@ -1,0 +1,33 @@
+Leetcode link: https://leetcode.com/problems/merge-intervals/
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+        vector<vector <int>> arr;
+        int n = intervals.size();
+        int  i = 0, j = 1;
+        while(i<n && j<n){
+            if(intervals[i][1] < intervals[j][0]){
+                arr.push_back(intervals[i]);
+                i=j;
+                j++;
+            }
+            else if(intervals[i][1] >= intervals[j][0]){
+                if(intervals[i][1] > intervals[j][1]){
+                    j++;
+                }
+                else if(intervals[i][1] < intervals[j][1]){
+                    intervals[i][1] = intervals[j][1];
+                    j++;
+                }
+                else{
+                    j++;
+                }
+            }
+        }
+        arr.push_back(intervals[i]);
+        return arr;
+        
+    }
+};
