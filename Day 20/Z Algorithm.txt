@@ -1,0 +1,51 @@
+Leetcode link: https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+
+Referred GFG: https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/
+
+class Solution {
+public:
+    void zCalc(vector<int> &z, int n, int m, string needle, int newLen){
+        int i = 1;
+        int L = 0,  R = 0, k = 0;
+        while(i<newLen){
+            if(i>R){
+                L=i, R=i;
+               while(R<newLen && needle[R]==needle[R-L]){
+                   R++;
+               } 
+               z[i] = R-L;
+               R--;
+            }
+            else{
+              k = i-L;
+              if(z[k]<R-i+1){
+                  z[i] = z[k]; 
+              }
+              else{
+                  L=i;
+                  while(R<newLen && needle[R]==needle[R-L]){
+                     R++;
+                  } 
+                  z[i] = R-L;
+                  R--;
+              }
+            }
+            i++;
+        }
+        
+    }
+    int strStr(string haystack, string needle) {
+        int n = haystack.length();
+        int m = needle.length();
+        needle+= "$" + haystack;
+        int newLen = needle.length();
+        vector<int> z(newLen, 0);
+        zCalc(z, n, m, needle, newLen);
+        for(int i = 0; i<newLen; i++){
+            if(z[i]==m){
+                return i-m-1;
+            }
+        }
+        return -1;
+    }
+};
