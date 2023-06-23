@@ -1,0 +1,65 @@
+GFG link: https://practice.geeksforgeeks.org/problems/minimum-characters-to-be-added-at-front-to-make-string-palindrome/1
+
+Referred GFG: https://www.geeksforgeeks.org/minimum-characters-added-front-make-string-palindrome/
+
+//{ Driver Code Starts
+/* Driver program to test above function */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+public:
+    void lpsCalc(vector<int> &lps, string temp, int m){
+        int i = 1;
+        int len = 0;
+        while(i<m){
+            if(temp[i]==temp[len]){
+                len++;
+                lps[i] = len;
+                i++;
+            }
+            else{
+                if(len!=0){
+                    len = lps[len-1];
+                }
+                else{
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+    }
+    int minChar(string str){
+        //Write your code here
+        int n = str.length();
+        string temp = str;
+        temp += "$";
+        reverse(str.begin(), str.end());
+        temp+=str;
+        int m = temp.length();
+        vector<int> lps(m, 0);
+        lpsCalc(lps, temp, m);
+        return n - lps[m-1];
+    }
+};
+
+
+//{ Driver Code Starts.
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string str;
+	    cin >> str;
+	    Solution ob;
+	    int ans = ob.minChar(str);
+	    cout << ans<<endl;
+	}
+	return 0;
+}
+
+// } Driver Code Ends

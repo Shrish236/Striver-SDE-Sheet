@@ -1,0 +1,41 @@
+Leetcode link: https://leetcode.com/problems/count-and-say/
+
+class Solution {
+public:
+    string calc(string s){
+        
+        int n = s.length();
+        int i = 0, count = 0, last = 0;
+        long long ans = 0;
+        string res;
+        while(i<n){
+            if(s[i]==s[last]){
+                count++;
+                i++;
+            }
+            if(s[i]!=s[last]){
+                ans=ans*10+count;
+                ans=ans*10+s[last] - '0';
+                if(ans > INT_MAX){
+                    res+=to_string(ans);
+                    ans=0;
+                }
+                last = i;
+                count = 0;
+            }
+        }
+        if(ans!=0){
+            res+=to_string(ans);
+        }
+        return res;
+        
+    }
+    string countAndSay(int n) {
+        if(n==1){
+            return "1";
+        }
+        string s = countAndSay(n-1);
+        return calc(s);
+    }
+};
+
