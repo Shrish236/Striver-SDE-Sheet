@@ -1,0 +1,32 @@
+GFG link: https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1
+
+Referred solution: https://discuss.geeksforgeeks.org/comment/4da2b2eaef16ecf4d2acd14274d6f1e5
+
+void findPre(Node* root, Node* &pre, int key){
+        while(root!=NULL){
+            if(root->key >= key){
+                root=root->left;
+            }
+            else{
+                pre = root;
+                root=root->right;
+            }
+        }
+    }
+    void findSuc(Node* root, Node*& suc, int key){
+        while(root!=NULL){
+            if(root->key <= key){
+                root=root->right;
+            }
+            else{
+                suc = root;
+                root=root->left;
+            }
+        }
+    }
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        // Your code goes here
+        findPre(root, pre, key);
+        findSuc(root, suc, key);
+    }
