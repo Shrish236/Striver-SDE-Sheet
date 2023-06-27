@@ -1,0 +1,88 @@
+Leetcode link: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+
+string serialize(TreeNode* root) {
+        string temp;
+        if(root==NULL){
+           temp+="*#";
+            return temp;
+        }
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            TreeNode* tempNode = q.front();
+            q.pop();
+            if(tempNode==NULL){
+                temp+="*#";
+            }
+            else{
+                temp+="*";
+                string val = to_string(tempNode->val);
+                temp+=val;
+                q.push(tempNode->left);
+                q.push(tempNode->right);
+            }
+        }
+        cout<<temp;
+        return temp;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        TreeNode* temp = new TreeNode();
+        int n = data.length();
+        queue<pair<TreeNode*, TreeNode*>> q;
+        q.push({temp, NULL});
+        int i = 0;
+        while(!q.empty() && i<n){
+            if(data[i] == '*'){
+                i++;
+            }
+            else if(data[i] == '#'){
+                TreeNode* root = q.front().first;
+                TreeNode* parent = q.front().second;
+                q.pop();
+                if(parent!=NULL){
+                    if(parent->left == root){
+                        parent->left = NULL;
+                        delete root;
+                    }
+                    else{
+                        parent->right = NULL;
+                        delete root;
+                    }
+                }
+                else{
+                    root=NULL;
+                    delete root;
+                    return NULL;
+                }
+                i++;
+            }
+            else{
+                int val = 0;
+                bool negative = false;
+                if(data[i] == '-'){
+                    negative = true;
+                    i++;
+                }
+                while(data[i]!='*'){
+                    val = val*10;
+                    val += data[i] - '0';
+                    i++;
+                }
+                if(negative){
+                    val*= -1;
+                }
+                TreeNode* root = q.front().first;
+                q.pop();
+                root->val = val;
+                TreeNode* tempLeft = new TreeNode();
+                TreeNode* tempRight = new TreeNode();
+                root->left = tempLeft;
+                root->right = tempRight;
+                q.push({tempLeft, root});
+                q.push({tempRight, root});
+            }
+        }
+        return temp;
+    }
